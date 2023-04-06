@@ -58,29 +58,40 @@ async def start_command(client: Client, message: Message):
         temp_msg = await message.reply("Please wait...")
         try:
             messages = await get_messages(client, ids)
+            
         except:
             await message.reply_text("Something went wrong..!")
             return
         await temp_msg.delete()
-
+       
+        
         for msg in messages:
 
             if bool(CUSTOM_CAPTION) & bool(msg.document):
                 caption = CUSTOM_CAPTION.format(previouscaption = "" if not msg.caption else msg.caption.html, filename = msg.document.file_name)
             else:
                 caption = "" if not msg.caption else msg.caption.html
-
+                
             if DISABLE_CHANNEL_BUTTON:
                 reply_markup = msg.reply_markup
             else:
                 reply_markup = None
 
             try:
-                await msg.copy(chat_id=message.from_user.id, caption = caption, parse_mode = ParseMode.HTML, reply_markup = reply_markup, protect_content=PROTECT_CONTENT)
+                na = await msg.copy(chat_id=message.from_user.id, caption = caption, parse_mode = ParseMode.HTML, reply_markup = reply_markup, protect_content=PROTECT_CONTENT)
                 await asyncio.sleep(0.5)
+                naa = await na.reply_text(f"<b>ಈ ಫೈಲ್ ಒಂದು ಗಂಟೆಯ ನಂತರ ಡಿಲೀಟ್ ಆಗುತ್ತದೆ, ಆದ್ದರಿಂದ ಈ ಫೈಲ್ ಅನ್ನು ಫಾರ್ವರ್ಡ್ ಅಥವಾ ಸೇವ್ ಮಾಡಿಕೊಳ್ಳಿ</b>", quote=True, reply_markup=reply_markup)
+                await asyncio.sleep(3600)
+                await naa.delete()
+                await na.delete()
+                
             except FloodWait as e:
                 await asyncio.sleep(e.x)
-                await msg.copy(chat_id=message.from_user.id, caption = caption, parse_mode = ParseMode.HTML, reply_markup = reply_markup, protect_content=PROTECT_CONTENT)
+                nan = await msg.copy(chat_id=message.from_user.id, caption = caption, parse_mode = ParseMode.HTML, reply_markup = reply_markup, protect_content=PROTECT_CONTENT)
+                naan = await na.reply_text(f"<b>ಈ ಫೈಲ್ ಒಂದು ಗಂಟೆಯ ನಂತರ ಡಿಲೀಟ್ ಆಗುತ್ತದೆ, ಆದ್ದರಿಂದ ಈ ಫೈಲ್ ಅನ್ನು ಫಾರ್ವರ್ಡ್ ಅಥವಾ ಸೇವ್ ಮಾಡಿಕೊಳ್ಳಿ</b>", quote=True, reply_markup=reply_markup)
+                await asyncio.sleep(360)
+                await naan.delete()
+                await nan.delete()
             except:
                 pass
         return
@@ -106,8 +117,6 @@ async def start_command(client: Client, message: Message):
             quote = True
         )
         return
-
-    
 #=====================================================================================##
 
 WAIT_MSG = """"<b>Processing ...</b>"""
